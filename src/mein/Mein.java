@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dogos;
+package mein;
 
 /**
  *
  * @author Nincub
  */
-public class Dogos {
+public class Mein {
 
     /**
      * @param args the command line arguments
