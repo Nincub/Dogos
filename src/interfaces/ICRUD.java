@@ -12,6 +12,11 @@ import java.io.Serializable;
  * @author Nincub
  */
 public interface ICRUD extends Serializable{
+    /**
+     * 
+     * @param obj
+     * @return 
+     */
     
     public boolean Escribir (Object obj);
     
