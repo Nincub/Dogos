@@ -5,6 +5,7 @@
  */
 package menus;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 import products.Pan;
 
@@ -74,18 +75,26 @@ public class MenuPan implements interfaces.IMenu {
 
     @Override
     public void Mostrar() {
-       
-        
+      Pan pan = new Pan();
+      LinkedList ll = (LinkedList) pan.Leer();
+      if (ll.isEmpty()){
+          System.out.println("Lista Vacia");
+          return;
+      }
+      for (Object obj : ll){
+          pan = (Pan) obj;
+          System.out.println(pan.toString());
+      }
     }
 
     @Override
     public void Modificar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+ 
     }
 
     @Override
     public void Eliminar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
