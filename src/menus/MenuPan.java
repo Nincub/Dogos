@@ -76,7 +76,8 @@ public class MenuPan implements interfaces.IMenu {
 
     @Override
     public void Mostrar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+        
     }
 
     @Override
