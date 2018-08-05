@@ -5,7 +5,6 @@
  */
 package products;
 
-import com.sun.corba.se.impl.io.IIOPOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -52,6 +51,11 @@ public class Pan extends abstracts.AProducto {
         return "{Pan{Nombre:" + this.getNombre() + ",Precio:" + this.getPrecio() +"}}";
     }
 
+    /**
+     * Recibe un objeto de pan y lo escribe en un Fichero nombrado "Pan" que es guardado en la raíz del proyecto
+     * @param Pan
+     * @return Devuelve true en caso de que se complete la escritura con exito en caso contrario será false
+     */
     @Override
     public boolean Escribir(Object obj) {
         boolean exito = true;
@@ -72,6 +76,10 @@ public class Pan extends abstracts.AProducto {
         return exito;
     }
 
+    /**
+     * Leer la lista de Objetos <Pan> del Fichero "Pan"
+     * @return Devuelve un LinkedList casteado a Object  en caso de haber sido nada encontrado retornara null
+     */
     @Override
     public Object Leer() {
         LinkedList<Pan> ll;
@@ -92,6 +100,12 @@ public class Pan extends abstracts.AProducto {
         return ll;
     }
 
+    /**
+     * Recibe un LinkedList dentro de un tipo Object en el que el primer elemento de la misma es la referencia
+     * a modificar y la segunda el la modificacion
+     * @param LinkedList
+     * @return Devuelve true si se logro modificar algo y false en caso contrario
+     */
     @Override
     public boolean Modificar(Object obj) {
         File F = new File("Pan");
@@ -137,7 +151,12 @@ public class Pan extends abstracts.AProducto {
         }
         return ban;
     }
-
+    
+    /**
+     * Recibe como parametro el elemento a eliminar
+     * @param obj 
+     * @return devuelve true en caso de que se lograra eliminar y false en caso contrario
+     */
     @Override
     public boolean Eliminar(Object obj) {
         boolean ban = false;
@@ -165,6 +184,11 @@ public class Pan extends abstracts.AProducto {
         return ban;
     }
 
+    /**
+     * Recibe como parametro el elemento a eliminar de manera logica
+     * @param obj 
+     * @return devuelve true en caso de que se lograra eliminar y false en caso contrario
+     */
     @Override
     public boolean EliminarLogic(Object obj) {
         boolean ban = false;

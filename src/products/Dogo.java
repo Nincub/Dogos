@@ -5,6 +5,13 @@
  */
 package products;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -36,7 +43,7 @@ public class Dogo extends abstracts.AProducto {
     public String toString() {
         
         return"El nombre es "+this.getNombre()+" tipo de salchicha "+salchicha.toString()+" tipo de pan:  "
-                +pan.toString()+ " El precio es :" + precio; 
+                +pan.toString()+ " El precio es :" + this.getPrecio(); 
                
         
         
@@ -44,7 +51,23 @@ public class Dogo extends abstracts.AProducto {
 
     @Override
     public boolean Escribir(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         boolean exito = true;
+        try {
+            FileOutputStream out = new FileOutputStream("Dogo", true);
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+            oos.writeObject(obj);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            exito = false;
+        } catch (IOException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            exito = false;
+        } catch (Exception ex) {
+            System.err.println(ex);
+            exito = false;
+        }
+        return exito;
+       
     }
 
     @Override
