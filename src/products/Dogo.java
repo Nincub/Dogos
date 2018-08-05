@@ -196,35 +196,6 @@ public class Dogo extends abstracts.AProducto {
         return ban;
         
     }
-
-    /**
-     * @return the pan
-     */
-    public Pan getPan() {
-        return pan;
-    }
-
-    /**
-     * @param pan the pan to set
-     */
-    public void setPan(Pan pan) {
-        this.pan = pan;
-    }
-
-    /**
-     * @return the salchicha
-     */
-    public Salchicha getSalchicha() {
-        return salchicha;
-    }
-
-    /**
-     * @param salchicha the salchicha to set
-     */
-    public void setSalchicha(Salchicha salchicha) {
-        this.salchicha = salchicha;
-    }
-    
     }
     
     
