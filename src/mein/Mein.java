@@ -5,6 +5,7 @@
  */
 package mein;
 
+import menus.MenuPan;
 import products.Pan;
 import products.Salchicha;
 
@@ -19,10 +20,10 @@ public class Mein {
      */
     public static void main(String[] args) {
         // TODO code application logic 
-        Pan pan = new Pan();
-        Salchicha salchicha = new Salchicha();
+        MenuPan pan = new MenuPan();
+        pan.Principal();
         
-       System.out.println(pan.getNombre()); 
+        
         
    
         
