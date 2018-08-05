@@ -6,6 +6,7 @@
 package venta;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import products.Dogo;
 
@@ -28,8 +29,10 @@ public class Orden extends abstracts.AOrden {
     
     
     @Override
-    public void CalcularTotal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double CalcularTotal() {
+        double total = 0;
+        total = dogos.stream().map((t) -> t.getPrecio()).reduce(total, (accumulator, _item) -> accumulator + _item);
+        return total;
     }
 
     @Override

@@ -31,7 +31,7 @@ public abstract class AOrden implements interfaces.ICRUD {
     
     
     
-    public abstract void CalcularTotal ();
+    public abstract double CalcularTotal ();
     
     @Override
     public abstract String toString ();
