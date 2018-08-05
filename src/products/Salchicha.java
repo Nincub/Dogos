@@ -13,8 +13,8 @@ public class Salchicha  extends abstracts.AProducto {
     
     public Salchicha(){}
     
-    public Salchicha(double precio, String nombre){
-       super(precio,nombre);
+    public Salchicha(double precio, String nombre, boolean status){
+       super(precio,nombre, status);
        
     }
       

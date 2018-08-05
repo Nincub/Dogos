@@ -22,8 +22,8 @@ public class Pan extends abstracts.AProducto {
      * @param precio
      * @param nombre 
      */
-    public Pan (double precio, String nombre) {
-        super(precio, nombre);
+    public Pan (double precio, String nombre, boolean status) {
+        super(precio, nombre, status);
     }
 
     /**
