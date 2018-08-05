@@ -10,7 +10,27 @@ package products;
  * @author Nincub
  */
 public class Pan extends abstracts.AProducto {
+    
+    /**
+     * Constructor empty
+     */
+    public Pan() {
+    }
+    
+    /**
+     * Contructor con parametros
+     * @param precio
+     * @param nombre 
+     */
+    public Pan (double precio, String nombre) {
+        super(precio, nombre);
+    }
 
+    /**
+     * Metodo no implementado
+     * @deprecated
+     */
+    @Deprecated
     @Override
     public void calcularPrecio() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
