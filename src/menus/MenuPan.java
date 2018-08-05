@@ -66,9 +66,11 @@ public class MenuPan implements interfaces.IMenu {
     public void Agregar() {
         System.out.println("Agrega el precio del Pan: ");
         Scanner s = new Scanner(System.in);
-        String nombre = s.nextLine();
-        System.out.println("Agrega el nombre del Pan");
         double precio = s.nextDouble();
+        System.out.println("Agrega el nombre del Pan");
+        s.reset();
+        String nombre = new Scanner(System.in).nextLine();
+        
         Pan pan = new Pan(precio, nombre, true);
         System.out.println(pan.Escribir(pan)? "Agregado con exito": "Fallo la agregacion del pan");
     }
