@@ -6,6 +6,7 @@
 package mein;
 
 import products.Pan;
+import products.Salchicha;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Mein {
     public static void main(String[] args) {
         // TODO code application logic 
         Pan p = new Pan();
+        Salchicha s = new Salchicha();
         
     }
     
