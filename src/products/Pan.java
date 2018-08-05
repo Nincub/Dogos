@@ -140,12 +140,58 @@ public class Pan extends abstracts.AProducto {
 
     @Override
     public boolean Eliminar(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean ban = false;
+        File F = new File("Pan");
+        File F2 = new File("Pan1");
+        Pan aux;
+        try {
+            FileInputStream in = new FileInputStream(F);
+            ObjectInputStream ois = new ObjectInputStream(in);
+            FileOutputStream out = new FileOutputStream(F2, true);
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+            while (ois.read() != -1){
+                aux = (Pan) ois.readObject();
+                if (aux.equals((Pan)obj)) {
+                    ban = true;
+                } else {
+                    oos.writeObject(aux);
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ban;
     }
 
     @Override
     public boolean EliminarLogic(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean ban = false;
+        File F = new File("Pan");
+        File F2 = new File("Pan1");
+        Pan aux;
+        try {
+            FileInputStream in = new FileInputStream(F);
+            ObjectInputStream ois = new ObjectInputStream(in);
+            FileOutputStream out = new FileOutputStream(F2, true);
+            ObjectOutputStream oos = new ObjectOutputStream(out);
+            while (ois.read() != -1){
+                aux = (Pan) ois.readObject();
+                if (aux.equals((Pan)obj)) {
+                    aux.setStatus(false);
+                    oos.writeObject(aux);
+                    ban = true;
+                } else {
+                    oos.writeObject(aux);
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ban;
     }
     
 }
