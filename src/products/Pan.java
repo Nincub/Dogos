@@ -67,7 +67,7 @@ public class Pan extends abstracts.AProducto {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
         } catch (IOException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
         } catch (Exception ex) {
             System.err.println(ex);
