@@ -19,8 +19,14 @@ public class Mein {
      */
     public static void main(String[] args) {
         // TODO code application logic 
-        Pan p = new Pan();
-        Salchicha s = new Salchicha();
+        Pan pan = new Pan();
+        Salchicha salchicha = new Salchicha();
+        
+       System.out.println(pan.getNombre()); 
+        
+   
+        
+        
         
     }
     
