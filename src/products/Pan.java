@@ -5,6 +5,7 @@
  */
 package products;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,15 +13,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sobre.MiObjectOutputStream;
 
 /**
  *
  * @author Nincub
  */
-public class Pan extends abstracts.AProducto {
+public class Pan extends abstracts.AProducto implements Serializable{
+    
+    int i = 1;
     /**
      * Constructor empty
      */
@@ -60,8 +65,15 @@ public class Pan extends abstracts.AProducto {
     public boolean Escribir(Object obj) {
         boolean exito = true;
         try {
-            FileOutputStream out = new FileOutputStream("Pan", true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            FileOutputStream out;
+            ObjectOutputStream oos;
+            if (!validarFile()) {
+                out = new FileOutputStream("Pan", true);
+                oos = new ObjectOutputStream(out);
+            } else {
+                out = new FileOutputStream("Pan", true);
+                oos = new MiObjectOutputStream(out);
+            }
             oos.writeObject(obj);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,6 +87,11 @@ public class Pan extends abstracts.AProducto {
         }
         return exito;
     }
+    
+    private boolean validarFile() {
+        File f  = new File("Pan");
+        return f.exists();
+    }
 
     /**
      * Leer la lista de Objetos <Pan> del Fichero "Pan"
@@ -82,20 +99,25 @@ public class Pan extends abstracts.AProducto {
      */
     @Override
     public Object Leer() {
-        LinkedList<Pan> ll;
+        LinkedList<Pan> ll = null;
+        Pan aux;
         try {
             FileInputStream in = new FileInputStream("Pan");
-            ObjectInputStream ois = new ObjectInputStream(in);
+            BufferedInputStream bis = new BufferedInputStream(in);
+            ObjectInputStream ois = new ObjectInputStream(bis);
+            
             ll = new LinkedList();
-            while(ois.read() != -1) {
-                ll.add((Pan)ois.readObject());
+            while (true) {
+                aux = (Pan) ois.readObject();
+                ll.add(aux);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+        } catch (IOException ex) { 
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ll;
     }

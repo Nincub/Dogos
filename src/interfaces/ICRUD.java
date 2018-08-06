@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Nincub
  */
-public interface ICRUD extends Serializable{
+public interface ICRUD{
     /**
      * 
      * @param obj

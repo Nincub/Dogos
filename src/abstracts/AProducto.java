@@ -1,5 +1,7 @@
 package abstracts;
 
+import java.io.Serializable;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,7 +12,7 @@ package abstracts;
  *
  * @author Nincub
  */
-public abstract class AProducto implements interfaces.ICRUD{
+public abstract class AProducto implements interfaces.ICRUD, Serializable{
     private double precio;
     private String nombre;
     private boolean status;
