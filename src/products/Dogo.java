@@ -24,23 +24,23 @@ import sobre.MiObjectOutputStream;
  * @author Hilxer
  */
 public class Dogo extends abstracts.AProducto implements Serializable{
-    private Dogo dogo;
+    private Pan pan;
     private Salchicha salchicha;
     
     
     public Dogo(){}
     
-    public Dogo(Dogo dogo, Salchicha salchicha,double precio,String nombre,boolean status){
+    public Dogo(Pan pan, Salchicha salchicha,double precio,String nombre,boolean status){
         super(precio,nombre,status);
         this.salchicha=salchicha;
-        this.dogo=dogo;
+        this.pan=pan;
     }
     
     
 
     @Override
     public void calcularPrecio() {
-        double aux = dogo.getPrecio() + salchicha.getPrecio();
+        double aux = pan.getPrecio() + salchicha.getPrecio();
         this.setPrecio(aux);
     }
     
@@ -49,7 +49,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
     public String toString() {
         
         return"El nombre es "+this.getNombre()+" tipo de salchicha "+salchicha.toString()+" tipo de dogo:  "
-                +dogo.toString()+ " El precio es :" + this.getPrecio(); 
+                +pan.toString()+ " El precio es :" + this.getPrecio(); 
                
         
         

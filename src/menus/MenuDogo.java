@@ -9,6 +9,8 @@ import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 import products.Dogo;
+import products.Pan;
+import products.Salchicha;
 
 /**
  *
@@ -64,12 +66,43 @@ public class MenuDogo implements interfaces.IMenu {
 
     @Override
     public void Agregar() {
+        boolean ban = false;
+        int it = 0;
         System.out.println("Agrega el precio del Dogo: ");
         double precio = validaDouble();
         System.out.println("Agrega el nombre del Dogo");
         String nombre = new Scanner(System.in).nextLine();
-        Dogo dogo = new Dogo(precio, nombre, true);
-        System.out.println(dogo.Escribir(dogo)? "Agregado con exito": "Fallo la agregacion del dogo");
+        Salchicha s = new Salchicha();
+        LinkedList<Salchicha> ll = (LinkedList) s.Leer();
+        Dogo dogo = null;
+        Pan p = new Pan();
+        if (ll.isEmpty()){
+            System.out.println("No hay salchichas guardadas");
+        } else {
+            System.out.println("Selecciona el tipo de salchicha");
+            for(Salchicha a : ll) {
+                it++;
+                System.out.println(it + ") " + a.toString());
+            }
+            s = ll.get(validaInt() - 1);
+            LinkedList<Pan> list = (LinkedList) p.Leer();
+            if (list.isEmpty()) {
+                System.out.println("No hay panes guardados");
+            } else {
+                it = 0;
+                ban = true;
+                System.out.println("Selecciona el tipo de pan");
+                for (Pan as : list) {
+                    it++;
+                    System.out.println(it + ") " + as.toString());
+                }
+                p = list.get(validaInt() - 1);
+                dogo = new Dogo(p,s, precio, nombre, true);
+            }
+            
+        }
+        
+        System.out.println(dogo.Escribir(dogo) && ban? "Agregado con exito": "Fallo la agregacion del dogo");
     }
 
     @Override
