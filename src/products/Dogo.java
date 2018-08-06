@@ -24,23 +24,23 @@ import sobre.MiObjectOutputStream;
  * @author Hilxer
  */
 public class Dogo extends abstracts.AProducto implements Serializable{
-    private Pan pan;
+    private Dogo dogo;
     private Salchicha salchicha;
     
     
     public Dogo(){}
     
-    public Dogo(Pan pan, Salchicha salchicha,double precio,String nombre,boolean status){
+    public Dogo(Dogo dogo, Salchicha salchicha,double precio,String nombre,boolean status){
         super(precio,nombre,status);
         this.salchicha=salchicha;
-        this.pan=pan;
+        this.dogo=dogo;
     }
     
     
 
     @Override
     public void calcularPrecio() {
-        double aux = pan.getPrecio() + salchicha.getPrecio();
+        double aux = dogo.getPrecio() + salchicha.getPrecio();
         this.setPrecio(aux);
     }
     
@@ -48,39 +48,51 @@ public class Dogo extends abstracts.AProducto implements Serializable{
     @Override
     public String toString() {
         
-        return"El nombre es "+this.getNombre()+" tipo de salchicha "+salchicha.toString()+" tipo de pan:  "
-                +pan.toString()+ " El precio es :" + this.getPrecio(); 
+        return"El nombre es "+this.getNombre()+" tipo de salchicha "+salchicha.toString()+" tipo de dogo:  "
+                +dogo.toString()+ " El precio es :" + this.getPrecio(); 
                
         
         
     }
 
+    /**
+     * Recibe un objeto de dogo y lo escribe en un Fichero nombrado "Dogo" que es guardado en la raíz del proyecto
+     * @param Dogo
+     * @return Devuelve true en caso de que se complete la escritura con exito en caso contrario será false
+     */
     @Override
     public boolean Escribir(Object obj) {
-         boolean exito = true;
+        boolean exito = true;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileOutputStream out;
-            ObjectOutputStream oos;
+            
             if (!validarFile()) {
-                out = new FileOutputStream("Salchicha", true);
+                out = new FileOutputStream("Dogo", true);
                 oos = new ObjectOutputStream(out);
             } else {
-                out = new FileOutputStream("Salchicha", true);
+                out = new FileOutputStream("Dogo", true);
                 oos = new MiObjectOutputStream(out);
             }
             oos.writeObject(obj);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
         } catch (IOException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
         } catch (Exception ex) {
             System.err.println(ex);
             exito = false;
+        } finally {
+            try {
+                out.close();
+                oos.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return exito;
-       
     }
     
     private boolean validarFile() {
@@ -88,27 +100,54 @@ public class Dogo extends abstracts.AProducto implements Serializable{
         return f.exists();
     }
 
+    /**
+     * Leer la lista de Objetos <Dogo> del Fichero "Dogo"
+     * @return Devuelve un LinkedList casteado a Object  en caso de haber sido nada encontrado retornara null
+     */
     @Override
     public Object Leer() {
         LinkedList<Dogo> ll = null;
         Dogo aux;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
         try {
-            FileInputStream in = new FileInputStream("Dogo");
-            ObjectInputStream ois = new ObjectInputStream(in);
+            in = new FileInputStream("Dogo");
+            ois = new ObjectInputStream(in);
+            
             ll = new LinkedList();
-            while(true) {
+            while (true) {
                 aux = (Dogo) ois.readObject();
                 ll.add(aux);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) { 
             
+        } finally {
+            try {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                ois.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ll;
     }
 
+    /**
+     * Recibe un LinkedList dentro de un tipo Object en el que el primer elemento de la misma es la referencia
+     * a modificar y la segunda el la modificacion
+     * @param obj
+     * @param LinkedList
+     * @return Devuelve true si se logro modificar algo y false en caso contrario
+     */
     @Override
     public boolean Modificar(Object obj) {
         File F = new File("Dogo");
@@ -118,22 +157,26 @@ public class Dogo extends abstracts.AProducto implements Serializable{
         LinkedList<Dogo> ll = (LinkedList) obj;
         Dogo dogo = (Dogo) ll.pollFirst();
         Dogo dogo1 = (Dogo) ll.pollLast();
-        if(pan == null || dogo1 == null){
-            if (!pan.equals(dogo1)) {
-                System.err.println("No puede ser igual el pan a modificar");
+        if(dogo == null || dogo1 == null){
+            if (!dogo.equals(dogo1)) {
+                System.err.println("No puede ser igual el dogo a modificar");
             } else {
-                System.err.println("lista de panes a modificar incompleta");
+                System.err.println("lista de dogoes a modificar incompleta");
             }
             return ban;
         }
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream in = new FileInputStream(F);
-            ObjectInputStream ois = new ObjectInputStream(in);
-            FileOutputStream out = new FileOutputStream(F2, true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2);
+            oos = new ObjectOutputStream(out);
             while (true) {
                 aux = (Dogo) ois.readObject();
-                if (aux.equals(dogo)){
+                if (aux.getNombre().equals(dogo.getNombre()) && aux.getPrecio() == dogo.getPrecio()){
                     oos.writeObject(dogo1);
                     ban = true;
                 } else {
@@ -144,51 +187,94 @@ public class Dogo extends abstracts.AProducto implements Serializable{
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
             
+            
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
-
+    
+    /**
+     * Recibe como parametro el elemento a eliminar
+     * @param obj 
+     * @return devuelve true en caso de que se lograra eliminar y false en caso contrario
+     */
     @Override
     public boolean Eliminar(Object obj) {
         boolean ban = false;
         File F = new File("Dogo");
         File F2 = new File("Dogo1");
         Dogo aux;
+        Dogo auxx = (Dogo) obj;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream in = new FileInputStream(F);
-            ObjectInputStream ois = new ObjectInputStream(in);
-            FileOutputStream out = new FileOutputStream(F2, true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2, true);
+            oos = new ObjectOutputStream(out);
             while (true){
                 aux = (Dogo) ois.readObject();
-                if (aux.equals((Dogo)obj)) {
+                if (aux.getNombre().equals(auxx.getNombre()) && aux.getPrecio() == auxx.getPrecio()) {
                     ban = true;
                 } else {
                     oos.writeObject(aux);
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
 
+    /**
+     * Recibe como parametro el elemento a eliminar de manera logica
+     * @param obj 
+     * @return devuelve true en caso de que se lograra eliminar y false en caso contrario
+     */
     @Override
     public boolean EliminarLogic(Object obj) {
-     boolean ban = false;
+        boolean ban = false;
         File F = new File("Dogo");
         File F2 = new File("Dogo1");
         Dogo aux;
+        Dogo auxx = (Dogo) obj;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream in = new FileInputStream(F);
-            ObjectInputStream ois = new ObjectInputStream(in);
-            FileOutputStream out = new FileOutputStream(F2, true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2, true);
+            oos = new ObjectOutputStream(out);
             while (true){
                 aux = (Dogo) ois.readObject();
-                if (aux.equals((Dogo)obj)) {
+                if (aux.getNombre().equals(auxx.getNombre()) && aux.getPrecio() == auxx.getPrecio()) {
                     aux.setStatus(false);
                     oos.writeObject(aux);
                     ban = true;
@@ -200,10 +286,21 @@ public class Dogo extends abstracts.AProducto implements Serializable{
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
-        
     }
+    
     }
     
     

@@ -144,6 +144,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
     /**
      * Recibe un LinkedList dentro de un tipo Object en el que el primer elemento de la misma es la referencia
      * a modificar y la segunda el la modificacion
+     * @param obj
      * @param LinkedList
      * @return Devuelve true si se logro modificar algo y false en caso contrario
      */

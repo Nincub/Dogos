@@ -41,12 +41,13 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
         return "{Salchicha{Nombre:" + this.getNombre() + ",Precio:" + this.getPrecio() +"}}";
     }
 
-    @Override
+   @Override
     public boolean Escribir(Object obj) {
-      boolean exito = true;
+        boolean exito = true;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileOutputStream out;
-            ObjectOutputStream oos;
+            
             if (!validarFile()) {
                 out = new FileOutputStream("Salchicha", true);
                 oos = new ObjectOutputStream(out);
@@ -59,11 +60,18 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
         } catch (IOException ex) {
-            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+           Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
         } catch (Exception ex) {
             System.err.println(ex);
             exito = false;
+        } finally {
+            try {
+                out.close();
+                oos.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return exito;
     }
@@ -73,122 +81,204 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
         return f.exists();
     }
 
+    /**
+     * Leer la lista de Objetos <Salchicha> del Fichero "Salchicha"
+     * @return Devuelve un LinkedList casteado a Object  en caso de haber sido nada encontrado retornara null
+     */
     @Override
     public Object Leer() {
-         LinkedList<Salchicha> aaa = null;
-         Salchicha aux;
+        LinkedList<Salchicha> ll = null;
+        Salchicha aux;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
         try {
-            FileInputStream eee = new FileInputStream("Salchicha");
-            ObjectInputStream ole = new ObjectInputStream(eee);
-            aaa = new LinkedList();
-            while(true) {
-                aux = (Salchicha) ole.readObject();
-                aaa.add(aux);
+            in = new FileInputStream("Salchicha");
+            ois = new ObjectInputStream(in);
+            
+            ll = new LinkedList();
+            while (true) {
+                aux = (Salchicha) ois.readObject();
+                ll.add(aux);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-        } catch (IOException | ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) { 
             
+        } finally {
+            try {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                ois.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        return aaa;
+        return ll;
     }
 
+    /**
+     * Recibe un LinkedList dentro de un tipo Object en el que el primer elemento de la misma es la referencia
+     * a modificar y la segunda el la modificacion
+     * @param LinkedList
+     * @return Devuelve true si se logro modificar algo y false en caso contrario
+     */
     @Override
     public boolean Modificar(Object obj) {
         File F = new File("Salchicha");
         File F2 = new File ("Salchicha1");
         boolean ban = false;
         Salchicha aux;
-        LinkedList<Salchicha> aaa = (LinkedList) obj;
-        Salchicha salchicha = (Salchicha) aaa.pollFirst();
-        Salchicha salchicha1 = (Salchicha) aaa.pollLast();
+        LinkedList<Salchicha> ll = (LinkedList) obj;
+        Salchicha salchicha = (Salchicha) ll.pollFirst();
+        Salchicha salchicha1 = (Salchicha) ll.pollLast();
         if(salchicha == null || salchicha1 == null){
             if (!salchicha.equals(salchicha1)) {
-                System.err.println("No puede ser igual la salchicha a modificar");
+                System.err.println("No puede ser igual el salchicha a modificar");
             } else {
-                System.err.println("lista de salchichas a modificar incompleta");
+                System.err.println("lista de salchichaes a modificar incompleta");
             }
             return ban;
         }
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream eee = new FileInputStream(F);
-            ObjectInputStream ole = new ObjectInputStream(eee);
-            FileOutputStream hola = new FileOutputStream(F2, true);
-            ObjectOutputStream hi = new ObjectOutputStream(hola);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2);
+            oos = new ObjectOutputStream(out);
             while (true) {
-                aux = (Salchicha) ole.readObject();
-                if (aux.equals(salchicha)){
-                    hi.writeObject(salchicha1);
+                aux = (Salchicha) ois.readObject();
+                if (aux.getNombre().equals(salchicha.getNombre()) && aux.getPrecio() == salchicha.getPrecio()){
+                    oos.writeObject(salchicha1);
                     ban = true;
                 } else {
-                    hi.writeObject(aux);
+                    oos.writeObject(aux);
                 }
-            } 
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
             
+            
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
-
+    
+    /**
+     * Recibe como parametro el elemento a eliminar
+     * @param obj 
+     * @return devuelve true en caso de que se lograra eliminar y false en caso contrario
+     */
     @Override
     public boolean Eliminar(Object obj) {
-       boolean ban = false;
+        boolean ban = false;
         File F = new File("Salchicha");
         File F2 = new File("Salchicha1");
         Salchicha aux;
+        Salchicha auxx = (Salchicha) obj;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream eee = new FileInputStream(F);
-            ObjectInputStream ole = new ObjectInputStream(eee);
-            FileOutputStream hola = new FileOutputStream(F2, true);
-            ObjectOutputStream hi = new ObjectOutputStream(hola);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2, true);
+            oos = new ObjectOutputStream(out);
             while (true){
-                aux = (Salchicha) ole.readObject();
-                if (aux.equals((Salchicha)obj)) {
+                aux = (Salchicha) ois.readObject();
+                if (aux.getNombre().equals(auxx.getNombre()) && aux.getPrecio() == auxx.getPrecio()) {
                     ban = true;
                 } else {
-                    hi.writeObject(aux);
+                    oos.writeObject(aux);
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
 
+    /**
+     * Recibe como parametro el elemento a eliminar de manera logica
+     * @param obj 
+     * @return devuelve true en caso de que se lograra eliminar y false en caso contrario
+     */
     @Override
     public boolean EliminarLogic(Object obj) {
         boolean ban = false;
         File F = new File("Salchicha");
         File F2 = new File("Salchicha1");
         Salchicha aux;
+        Salchicha auxx = (Salchicha) obj;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream eee = new FileInputStream(F);
-            ObjectInputStream ole = new ObjectInputStream(eee);
-            FileOutputStream hola = new FileOutputStream(F2, true);
-            ObjectOutputStream hi = new ObjectOutputStream(hola);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2, true);
+            oos = new ObjectOutputStream(out);
             while (true){
-                aux = (Salchicha) ole.readObject();
-                if (aux.equals((Salchicha)obj)) {
+                aux = (Salchicha) ois.readObject();
+                if (aux.getNombre().equals(auxx.getNombre()) && aux.getPrecio() == auxx.getPrecio()) {
                     aux.setStatus(false);
-                    hi.writeObject(aux);
+                    oos.writeObject(aux);
                     ban = true;
                 } else {
-                    hi.writeObject(aux);
+                    oos.writeObject(aux);
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
-    
-    
     
 }
