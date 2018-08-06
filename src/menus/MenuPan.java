@@ -66,12 +66,9 @@ public class MenuPan implements interfaces.IMenu {
     @Override
     public void Agregar() {
         System.out.println("Agrega el precio del Pan: ");
-        Scanner s = new Scanner(System.in);
-        double precio = s.nextDouble();
+        double precio = validaDouble();
         System.out.println("Agrega el nombre del Pan");
-        s.reset();
         String nombre = new Scanner(System.in).nextLine();
-        
         Pan pan = new Pan(precio, nombre, true);
         System.out.println(pan.Escribir(pan)? "Agregado con exito": "Fallo la agregacion del pan");
     }
@@ -107,14 +104,14 @@ public class MenuPan implements interfaces.IMenu {
         }
         LinkedList<Pan> l = new LinkedList();
         int auxx = validaInt();
-        if (auxx < i && auxx > 0) {
+        if (auxx <= i && auxx > 0) {
             System.out.println("Ingresa el nuevo nombre");
             String nombre = new Scanner(System.in).nextLine();
             System.out.println("Ingresa el nuevo precio");
             double precio = validaDouble();
-            l.add((Pan) ll.get(auxx));
+            l.add((Pan) ll.get(auxx - 1));
             l.add(new Pan(precio, nombre, true));
-            pan.Modificar(l);
+            System.out.println(pan.Modificar(l)? "Moficado" : "Error al modificar");
         }
     }
     
@@ -155,7 +152,7 @@ public class MenuPan implements interfaces.IMenu {
           pan = (Pan) obj;
           System.out.println(i + ") " + pan.toString());
         }
-        pan.Eliminar(ll.get(validaInt()));
+        pan.Eliminar(ll.get(validaInt() - 1));
     }
 
     @Override
@@ -173,7 +170,7 @@ public class MenuPan implements interfaces.IMenu {
           pan = (Pan) obj;
           System.out.println(i + ") " + pan.toString());
         }
-        pan.EliminarLogic(ll.get(validaInt()));
+        pan.EliminarLogic(ll.get(validaInt() - 1));
     }
     
     

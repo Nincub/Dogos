@@ -25,7 +25,6 @@ import sobre.MiObjectOutputStream;
  */
 public class Pan extends abstracts.AProducto implements Serializable{
     
-    int i = 1;
     /**
      * Constructor empty
      */
@@ -64,9 +63,10 @@ public class Pan extends abstracts.AProducto implements Serializable{
     @Override
     public boolean Escribir(Object obj) {
         boolean exito = true;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileOutputStream out;
-            ObjectOutputStream oos;
+            
             if (!validarFile()) {
                 out = new FileOutputStream("Pan", true);
                 oos = new ObjectOutputStream(out);
@@ -84,6 +84,13 @@ public class Pan extends abstracts.AProducto implements Serializable{
         } catch (Exception ex) {
             System.err.println(ex);
             exito = false;
+        } finally {
+            try {
+                out.close();
+                oos.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return exito;
     }
@@ -101,10 +108,11 @@ public class Pan extends abstracts.AProducto implements Serializable{
     public Object Leer() {
         LinkedList<Pan> ll = null;
         Pan aux;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
         try {
-            FileInputStream in = new FileInputStream("Pan");
-            BufferedInputStream bis = new BufferedInputStream(in);
-            ObjectInputStream ois = new ObjectInputStream(bis);
+            in = new FileInputStream("Pan");
+            ois = new ObjectInputStream(in);
             
             ll = new LinkedList();
             while (true) {
@@ -118,6 +126,17 @@ public class Pan extends abstracts.AProducto implements Serializable{
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) { 
             
+        } finally {
+            try {
+                try {
+                    in.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                ois.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ll;
     }
@@ -145,14 +164,18 @@ public class Pan extends abstracts.AProducto implements Serializable{
             }
             return ban;
         }
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream in = new FileInputStream(F);
-            ObjectInputStream ois = new ObjectInputStream(in);
-            FileOutputStream out = new FileOutputStream(F2, true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2);
+            oos = new ObjectOutputStream(out);
             while (true) {
                 aux = (Pan) ois.readObject();
-                if (aux.equals(pan)){
+                if (aux.getNombre().equals(pan.getNombre()) && aux.getPrecio() == pan.getPrecio()){
                     oos.writeObject(pan1);
                     ban = true;
                 } else {
@@ -163,6 +186,18 @@ public class Pan extends abstracts.AProducto implements Serializable{
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
             
+            
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
@@ -178,23 +213,39 @@ public class Pan extends abstracts.AProducto implements Serializable{
         File F = new File("Pan");
         File F2 = new File("Pan1");
         Pan aux;
+        Pan auxx = (Pan) obj;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream in = new FileInputStream(F);
-            ObjectInputStream ois = new ObjectInputStream(in);
-            FileOutputStream out = new FileOutputStream(F2, true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2, true);
+            oos = new ObjectOutputStream(out);
             while (true){
                 aux = (Pan) ois.readObject();
-                if (aux.equals((Pan)obj)) {
+                if (aux.getNombre().equals(auxx.getNombre()) && aux.getPrecio() == auxx.getPrecio()) {
                     ban = true;
                 } else {
                     oos.writeObject(aux);
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
@@ -210,14 +261,19 @@ public class Pan extends abstracts.AProducto implements Serializable{
         File F = new File("Pan");
         File F2 = new File("Pan1");
         Pan aux;
+        Pan auxx = (Pan) obj;
+        FileInputStream in = null;
+        ObjectInputStream ois = null;
+        FileOutputStream out = null;
+        ObjectOutputStream oos = null;
         try {
-            FileInputStream in = new FileInputStream(F);
-            ObjectInputStream ois = new ObjectInputStream(in);
-            FileOutputStream out = new FileOutputStream(F2, true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            in = new FileInputStream(F);
+            ois = new ObjectInputStream(in);
+            out = new FileOutputStream(F2, true);
+            oos = new ObjectOutputStream(out);
             while (true){
                 aux = (Pan) ois.readObject();
-                if (aux.equals((Pan)obj)) {
+                if (aux.getNombre().equals(auxx.getNombre()) && aux.getPrecio() == auxx.getPrecio()) {
                     aux.setStatus(false);
                     oos.writeObject(aux);
                     ban = true;
@@ -229,6 +285,17 @@ public class Pan extends abstracts.AProducto implements Serializable{
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             
+        } finally {
+            try {
+                in.close();
+                ois.close();
+                out.close();
+                oos.close();
+                F.delete();
+                F2.renameTo(F);
+            } catch (IOException ex) {
+                Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ban;
     }
