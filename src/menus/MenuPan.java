@@ -5,6 +5,7 @@
  */
 package menus;
 
+import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
 import products.Pan;
@@ -91,17 +92,88 @@ public class MenuPan implements interfaces.IMenu {
 
     @Override
     public void Modificar() {
- 
+        Pan pan = new Pan();
+        int i = 0;
+        LinkedList ll = (LinkedList) pan.Leer();
+        if (ll.isEmpty()){
+            System.out.println("No hay nada para modificar");
+            return;
+        }
+        System.out.println("Seleccione la opcion a modificar");
+        for (Object obj : ll){
+          i++;
+          pan = (Pan) obj;
+          System.out.println(i + ") " + pan.toString());
+        }
+        LinkedList<Pan> l = new LinkedList();
+        int auxx = validaInt();
+        if (auxx < i && auxx > 0) {
+            System.out.println("Ingresa el nuevo nombre");
+            String nombre = new Scanner(System.in).nextLine();
+            System.out.println("Ingresa el nuevo precio");
+            double precio = validaDouble();
+            l.add((Pan) ll.get(auxx));
+            l.add(new Pan(precio, nombre, true));
+            pan.Modificar(l);
+        }
+    }
+    
+    private int validaInt () {
+        int re;
+        try {
+            re = new Scanner(System.in).nextInt();
+        } catch (InputMismatchException ex){
+            System.out.println("Valor no valido intente de nuevo");
+            re = validaInt();
+        }
+        return re;
+    }
+    
+    private double validaDouble () {
+        double re;
+        try {
+            re = new Scanner(System.in).nextDouble();
+        } catch (InputMismatchException ex){
+            System.out.println("Valor no valido intente de nuevo");
+            re = validaDouble();
+        }
+        return re;
     }
 
     @Override
     public void Eliminar() {
-        
+        Pan pan = new Pan();
+        int i = 0;
+        LinkedList ll = (LinkedList) pan.Leer();
+        if (ll.isEmpty()){
+            System.out.println("No hay nada para eliminar");
+            return;
+        }
+        System.out.println("Seleccione la opcion a eliminar");
+        for (Object obj : ll){
+          i++;
+          pan = (Pan) obj;
+          System.out.println(i + ") " + pan.toString());
+        }
+        pan.Eliminar(ll.get(validaInt()));
     }
 
     @Override
     public void EliminarLogic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pan pan = new Pan();
+        int i = 0;
+        LinkedList ll = (LinkedList) pan.Leer();
+        if (ll.isEmpty()){
+            System.out.println("No hay nada para eliminar logicamente");
+            return;
+        }
+        System.out.println("Seleccione la opcion a eliminar logicamente");
+        for (Object obj : ll){
+          i++;
+          pan = (Pan) obj;
+          System.out.println(i + ") " + pan.toString());
+        }
+        pan.EliminarLogic(ll.get(validaInt()));
     }
     
     
