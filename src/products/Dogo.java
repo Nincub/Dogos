@@ -131,7 +131,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
             ObjectInputStream ois = new ObjectInputStream(in);
             FileOutputStream out = new FileOutputStream(F2, true);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            while (ois.read() != -1) {
+            while (true) {
                 aux = (Dogo) ois.readObject();
                 if (aux.equals(dogo)){
                     oos.writeObject(dogo1);
@@ -140,17 +140,10 @@ public class Dogo extends abstracts.AProducto implements Serializable{
                     oos.writeObject(aux);
                 }
             }
-            in.close();
-            oos.close();
-            if (F.delete()) {
-                if (F2.renameTo(F)) {
-                    System.out.println("Exito");
-                }
-            }  
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
@@ -166,7 +159,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
             ObjectInputStream ois = new ObjectInputStream(in);
             FileOutputStream out = new FileOutputStream(F2, true);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            while (ois.read() != -1){
+            while (true){
                 aux = (Dogo) ois.readObject();
                 if (aux.equals((Dogo)obj)) {
                     ban = true;
@@ -177,7 +170,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
@@ -193,7 +186,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
             ObjectInputStream ois = new ObjectInputStream(in);
             FileOutputStream out = new FileOutputStream(F2, true);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            while (ois.read() != -1){
+            while (true){
                 aux = (Dogo) ois.readObject();
                 if (aux.equals((Dogo)obj)) {
                     aux.setStatus(false);
@@ -206,7 +199,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
         

@@ -116,7 +116,7 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
             ObjectInputStream ole = new ObjectInputStream(eee);
             FileOutputStream hola = new FileOutputStream(F2, true);
             ObjectOutputStream hi = new ObjectOutputStream(hola);
-            while (ole.read() != -1) {
+            while (true) {
                 aux = (Salchicha) ole.readObject();
                 if (aux.equals(salchicha)){
                     hi.writeObject(salchicha1);
@@ -124,18 +124,11 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
                 } else {
                     hi.writeObject(aux);
                 }
-            }
-            eee.close();
-            hi.close();
-            if (F.delete()) {
-                if (F2.renameTo(F)) {
-                    System.out.println("Exito");
-                }
-            }  
+            } 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
@@ -151,7 +144,7 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
             ObjectInputStream ole = new ObjectInputStream(eee);
             FileOutputStream hola = new FileOutputStream(F2, true);
             ObjectOutputStream hi = new ObjectOutputStream(hola);
-            while (ole.read() != -1){
+            while (true){
                 aux = (Salchicha) ole.readObject();
                 if (aux.equals((Salchicha)obj)) {
                     ban = true;
@@ -162,7 +155,7 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
@@ -178,7 +171,7 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
             ObjectInputStream ole = new ObjectInputStream(eee);
             FileOutputStream hola = new FileOutputStream(F2, true);
             ObjectOutputStream hi = new ObjectOutputStream(hola);
-            while (ole.read() != -1){
+            while (true){
                 aux = (Salchicha) ole.readObject();
                 if (aux.equals((Salchicha)obj)) {
                     aux.setStatus(false);
@@ -191,7 +184,7 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }

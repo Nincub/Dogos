@@ -159,7 +159,6 @@ public class Pan extends abstracts.AProducto implements Serializable{
                     oos.writeObject(aux);
                 }
             }
-             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
@@ -184,7 +183,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
             ObjectInputStream ois = new ObjectInputStream(in);
             FileOutputStream out = new FileOutputStream(F2, true);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            while (ois.read() != -1){
+            while (true){
                 aux = (Pan) ois.readObject();
                 if (aux.equals((Pan)obj)) {
                     ban = true;
@@ -195,7 +194,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
@@ -216,7 +215,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
             ObjectInputStream ois = new ObjectInputStream(in);
             FileOutputStream out = new FileOutputStream(F2, true);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            while (ois.read() != -1){
+            while (true){
                 aux = (Pan) ois.readObject();
                 if (aux.equals((Pan)obj)) {
                     aux.setStatus(false);
@@ -229,7 +228,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
         } catch (IOException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
