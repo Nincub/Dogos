@@ -117,7 +117,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) { 
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ll;
     }
@@ -150,7 +150,7 @@ public class Pan extends abstracts.AProducto implements Serializable{
             ObjectInputStream ois = new ObjectInputStream(in);
             FileOutputStream out = new FileOutputStream(F2, true);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            while (ois.read() != -1) {
+            while (true) {
                 aux = (Pan) ois.readObject();
                 if (aux.equals(pan)){
                     oos.writeObject(pan1);
@@ -159,17 +159,11 @@ public class Pan extends abstracts.AProducto implements Serializable{
                     oos.writeObject(aux);
                 }
             }
-            in.close();
-            oos.close();
-            if (F.delete()) {
-                if (F2.renameTo(F)) {
-                    System.out.println("Exito");
-                }
-            }  
+             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return ban;
     }
