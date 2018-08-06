@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sobre.MiObjectOutputStream;
 
 
 /**
@@ -58,8 +59,15 @@ public class Dogo extends abstracts.AProducto implements Serializable{
     public boolean Escribir(Object obj) {
          boolean exito = true;
         try {
-            FileOutputStream out = new FileOutputStream("Dogo", true);
-            ObjectOutputStream oos = new ObjectOutputStream(out);
+            FileOutputStream out;
+            ObjectOutputStream oos;
+            if (!validarFile()) {
+                out = new FileOutputStream("Salchicha", true);
+                oos = new ObjectOutputStream(out);
+            } else {
+                out = new FileOutputStream("Salchicha", true);
+                oos = new MiObjectOutputStream(out);
+            }
             oos.writeObject(obj);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Pan.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,23 +82,29 @@ public class Dogo extends abstracts.AProducto implements Serializable{
         return exito;
        
     }
+    
+    private boolean validarFile() {
+        File f  = new File("Dogo");
+        return f.exists();
+    }
 
     @Override
     public Object Leer() {
-        LinkedList<Dogo> ll;
+        LinkedList<Dogo> ll = null;
+        Dogo aux;
         try {
             FileInputStream in = new FileInputStream("Dogo");
             ObjectInputStream ois = new ObjectInputStream(in);
             ll = new LinkedList();
-            while(ois.read() != -1) {
-                ll.add((Dogo)ois.readObject());
+            while(true) {
+                aux = (Dogo) ois.readObject();
+                ll.add(aux);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Dogo.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            
         }
         return ll;
     }

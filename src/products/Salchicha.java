@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sobre.MiObjectOutputStream;
 
 /**
  *
@@ -44,9 +45,16 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
     public boolean Escribir(Object obj) {
       boolean exito = true;
         try {
-            FileOutputStream hola = new FileOutputStream("Salchicha", true);
-            ObjectOutputStream hi = new ObjectOutputStream(hola);
-            hi.writeObject(obj);
+            FileOutputStream out;
+            ObjectOutputStream oos;
+            if (!validarFile()) {
+                out = new FileOutputStream("Salchicha", true);
+                oos = new ObjectOutputStream(out);
+            } else {
+                out = new FileOutputStream("Salchicha", true);
+                oos = new MiObjectOutputStream(out);
+            }
+            oos.writeObject(obj);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
             exito = false;
@@ -59,23 +67,29 @@ public class Salchicha  extends abstracts.AProducto implements Serializable{
         }
         return exito;
     }
+    
+    private boolean validarFile() {
+        File f  = new File("Salchicha");
+        return f.exists();
+    }
 
     @Override
     public Object Leer() {
-         LinkedList<Salchicha> aaa;
+         LinkedList<Salchicha> aaa = null;
+         Salchicha aux;
         try {
             FileInputStream eee = new FileInputStream("Salchicha");
             ObjectInputStream ole = new ObjectInputStream(eee);
             aaa = new LinkedList();
-            while(ole.read() != -1) {
-                aaa.add((Salchicha)ole.readObject());
+            while(true) {
+                aux = (Salchicha) ole.readObject();
+                aaa.add(aux);
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(Salchicha.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            
         }
         return aaa;
     }
