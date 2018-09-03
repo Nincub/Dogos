@@ -202,7 +202,11 @@ public class MenuDogo implements interfaces.IMenu {
           dogo = (Dogo) obj;
           System.out.println(i + ") " + dogo.toString());
         }
-        dogo.Eliminar(ll.get(validaInt() - 1));
+        if (dogo.Eliminar(ll.get(validaInt() - 1))) {
+            System.out.println("Eliminación exitosa");
+        }   else {
+            System.err.println("Ocurrión un error elimando el elemento");
+        }
     }
 
     @Override
