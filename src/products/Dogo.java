@@ -301,6 +301,40 @@ public class Dogo extends abstracts.AProducto implements Serializable{
         return ban;
     }
     
+    /**
+     * Retorna el Pan
+     * @return pan
+     */
+    public Pan getPan() {
+        return pan;
+    }
+
+    /**
+     * Asignar el Pan
+     * @param pan 
+     */
+    public void setPan(Pan pan) {
+        this.pan = pan;
+    }
+
+    /**
+     * Retorna la Salchicha
+     * @return salchicha
+     */
+    public Salchicha getSalchicha() {
+        return salchicha;
+    }
+    
+    /**
+     * Asigna la Salchicha
+     * @param salchicha 
+     */
+    public void setSalchicha(Salchicha salchicha) {
+        this.salchicha = salchicha;
+    }
+    
+    
+    
     }
     
     

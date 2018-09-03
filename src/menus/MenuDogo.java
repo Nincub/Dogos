@@ -122,6 +122,8 @@ public class MenuDogo implements interfaces.IMenu {
     @Override
     public void Modificar() {
         Dogo dogo = new Dogo();
+        Pan pan = null;
+        Salchicha salchicha = null;
         int i = 0;
         LinkedList ll = (LinkedList) dogo.Leer();
         if (ll.isEmpty()){
@@ -142,8 +144,24 @@ public class MenuDogo implements interfaces.IMenu {
             System.out.println("Ingresa el nuevo precio");
             double precio = validaDouble();
             l.add((Dogo) ll.get(auxx - 1));
-            l.add(new Dogo(precio, nombre, true));
-            System.out.println(dogo.Modificar(l)? "Moficado" : "Error al modificar");
+            System.out.println("Desea editar el Pan? \n 1) Si \n 2) No");
+            if (validaInt() == 1) {
+                pan = cambiarPan();
+                if (pan == null) {
+                    System.err.println("Ocurrio un error al agregar el Pan y no se edito");
+                    pan = l.getFirst().getPan();
+                }
+            }
+            System.out.println("Desea editar la Salchicha \n 1) Si \n 2) No");
+            if(validaInt() == 1){
+                salchicha =  cambiarSalchicha();
+                if ( salchicha == null) {
+                    System.err.println("Ocurrio un error al agregar la Salchicha y no se edito");
+                    salchicha = l.getFirst().getSalchicha();
+                }
+            }
+            l.add(new Dogo(pan, salchicha, precio, nombre, true));
+            System.out.println(dogo.Modificar(l)? "Modificado" : "Error al modificar");
         }
     }
     
@@ -203,6 +221,36 @@ public class MenuDogo implements interfaces.IMenu {
           System.out.println(i + ") " + dogo.toString());
         }
         dogo.EliminarLogic(ll.get(validaInt() - 1));
+    }
+
+    private Pan cambiarPan() {
+        Pan pan = new Pan();
+        LinkedList<Pan> lPan = (LinkedList<Pan>) pan.Leer();
+        if(lPan == null) {
+            System.out.println("No hay Panes para asignar");
+            return null;
+        }
+        for (Object obj : lPan) {
+            pan = (Pan) obj;
+            System.out.println(pan.toString());
+        }
+        System.out.println("Cuál Pan desea asignar");
+        return lPan.get(validaInt() - 1);
+    }
+
+    private Salchicha cambiarSalchicha() {
+        Salchicha salchicha = new Salchicha();
+        LinkedList<Salchicha> lSalchicha = (LinkedList<Salchicha>) salchicha.Leer();
+        if(lSalchicha == null) {
+            System.out.println("No hay Salchichas para asignar");
+            return null;
+        }
+        for (Object obj : lSalchicha) {
+            salchicha = (Salchicha) obj;
+            System.out.println(salchicha.toString());
+        }
+        System.out.println("Cuál Salchicha deseas asignar");
+        return lSalchicha.get(validaInt() - 1);
     }
     
     
