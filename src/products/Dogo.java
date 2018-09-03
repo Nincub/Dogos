@@ -48,7 +48,7 @@ public class Dogo extends abstracts.AProducto implements Serializable{
     @Override
     public String toString() {
         
-        return"El nombre es "+this.getNombre()+" tipo de salchicha "+salchicha.toString()+" tipo de dogo:  "
+        return"El nombre es "+this.getNombre()+" tipo de salchicha "+salchicha.toString()+" tipo de Pan:  "
                 +pan.toString()+ " El precio es :" + this.getPrecio(); 
                
         

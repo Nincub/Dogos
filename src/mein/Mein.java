@@ -5,16 +5,12 @@
  */
 package mein;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import menus.MenuPan;
-import products.Pan;
-import products.Salchicha;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import menus.*;
+
 
 /**
  *
@@ -22,17 +18,57 @@ import products.Salchicha;
  */
 public class Mein {
 
+    
     /**
-     * @param args the command line arguments
+     * 
+     * @param args
+     * @throws ClassNotFoundException
+     * @throws FileNotFoundException
+     * @throws IOException 
      */
     public static void main(String[] args) throws ClassNotFoundException, FileNotFoundException,IOException {
         // TODO code application logic 
-        int i = 0;
+        int i;
+        do {
+            System.out.println("Seleccione los que deseas editar");
+            System.out.println("1) Dogos\n2) Salchichas \n3) Panes \n4) Salir");
+            i = Mein.validaInt();
+            selectOpcion(i);
+        } while ( i != 4);
         
         
         
-        
-        
+    }
+    
+    private static int validaInt () {
+        int re;
+        try {
+            re = new Scanner(System.in).nextInt();
+        } catch (InputMismatchException ex){
+            System.out.println("Valor no valido intente de nuevo");
+            re = validaInt();
+        }
+        return re;
+    }
+
+    private static void selectOpcion(int i) {
+        MenuDogo menuDogo = new MenuDogo();
+        MenuPan menuPan = new MenuPan();
+        MenuSalchicha menuSalchicha = new MenuSalchicha();
+        switch (i) {
+            case 1: 
+                menuDogo.Principal();
+                break;
+            case 2:
+                menuSalchicha.Principal();
+                break;
+            case 3:
+                menuPan.Principal();
+                break;
+            default :
+                System.out.println("Opcion no valida");
+                
+        }
     }
     
     
