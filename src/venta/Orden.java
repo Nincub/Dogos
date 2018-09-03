@@ -35,8 +35,6 @@ public class Orden extends abstracts.AOrden {
         this.dogos = dogos;
     }
     
-    
-    
     @Override
     public double CalcularTotal() {
         double total = 0;

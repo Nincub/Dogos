@@ -27,12 +27,13 @@ public class Mein {
      */
     public static void main(String[] args) throws ClassNotFoundException, FileNotFoundException,IOException {
         // TODO code application logic 
-        MenuPan pan = new MenuPan();
-        pan.Principal();
+        int i = 0;
+        
         
         
         
         
     }
+    
     
 }
